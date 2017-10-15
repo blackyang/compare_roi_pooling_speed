@@ -9,3 +9,7 @@ method0: 12.392516136169434, batch_size: 256, size: 256, num_rois: 200
 method1: 12.133146524429321, batch_size: 256, size: 256, num_rois: 200
 method0: 12.273459672927856, batch_size: 256, size: 256, num_rois: 2000
 method1: 12.020626068115234, batch_size: 256, size: 256, num_rois: 2000
+
+# see https://discuss.pytorch.org/t/extract-sub-region-of-conv-feature-map/1480/2
+
+# update: i just found that i was running another program on the same gpu, so the time above maybe inaccurate

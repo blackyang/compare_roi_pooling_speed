@@ -40,7 +40,7 @@ if __name__ == '__main__':
     num_rois = [10, 100, 200, 2000]
     T = 100
     cuda = True
-    has_backward = True
+    has_backward = False
     assert len(batch_size) == len(size)
     assert len(batch_size) == len(num_rois)
 
@@ -60,7 +60,7 @@ if __name__ == '__main__':
             start = time.time()
             for t in range(T):
                 output = roi_pooling1(x, rois)
-            print('method{}: {}, batch_size: {}, size: {}, num_rois: {}'.format(f, time.time() - start,
+            print('method{}: {}, batch_size: {}, size: {}, num_rois: {}'.format(f, (time.time() - start) / T,
                                                                                 batch_size[i],
                                                                                 size[i],
                                                                                 num_rois[i]))
