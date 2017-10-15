@@ -35,9 +35,9 @@ def roi_pooling2(input, rois, size=(7, 7), spatial_scale=1.0):
 
 
 if __name__ == '__main__':
-    batch_size = [8, 64, 256]
-    size = [8, 64, 256]
-    num_rois = [10, 100, 200]
+    batch_size = [8, 64, 256, 256]
+    size = [8, 64, 256, 256]
+    num_rois = [10, 100, 200, 2000]
     T = 100
     cuda = True
     has_backward = True

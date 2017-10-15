@@ -1,0 +1,11 @@
+results:
+
+use_cuda: True, has_backward: True
+method0: 0.018513917922973633, batch_size: 8, size: 8, num_rois: 10
+method1: 0.018006086349487305, batch_size: 8, size: 8, num_rois: 10
+method0: 0.18179535865783691, batch_size: 64, size: 64, num_rois: 100
+method1: 0.15875959396362305, batch_size: 64, size: 64, num_rois: 100
+method0: 12.392516136169434, batch_size: 256, size: 256, num_rois: 200
+method1: 12.133146524429321, batch_size: 256, size: 256, num_rois: 200
+method0: 12.273459672927856, batch_size: 256, size: 256, num_rois: 2000
+method1: 12.020626068115234, batch_size: 256, size: 256, num_rois: 2000
