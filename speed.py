@@ -35,22 +35,28 @@ def roi_pooling2(input, rois, size=(7, 7), spatial_scale=1.0):
 
 
 if __name__ == '__main__':
-    batch_size = [8, 64, 256, 256]
-    size = [8, 64, 256, 256]
-    num_rois = [10, 100, 200, 2000]
-    T = 100
+    # batch_size, img_size, num_rois
+    config = [[8, 8, 10], [8, 8, 100],
+              [64, 64, 100], [64, 64, 1000],
+              [256, 256, 100], [256, 256, 1000]]
+    T = 50
     cuda = True
-    has_backward = False
-    assert len(batch_size) == len(size)
-    assert len(batch_size) == len(num_rois)
+    has_backward = True
 
     print('use_cuda: {}, has_backward: {}'.format(cuda, has_backward))
-    for i in range(len(batch_size)):
-        x = Variable(torch.rand((batch_size[i], 3, size[i], size[i])))
-        rois = Variable(torch.rand((num_rois[i], 5)))
-        rois[:, 0] = rois[:, 0] * batch_size[i]
-        rois[:, 1:] = rois[:, 1:] * size[i]
+    for i in range(len(config)):
+        x = torch.rand((config[i][0], 3, config[i][1], config[i][1]))
+        rois = torch.rand((config[i][2], 5))
+        rois[:, 0] = rois[:, 0] * config[i][0]
+        rois[:, 1:] = rois[:, 1:] * config[i][1]
+        for j in range(config[i][2]):
+            max_, min_ = max(rois[j, 1], rois[j, 3]), min(rois[j, 1], rois[j, 3])
+            rois[j, 1], rois[j, 3] = min_, max_
+            max_, min_ = max(rois[j, 2], rois[j, 4]), min(rois[j, 2], rois[j, 4])
+            rois[j, 2], rois[j, 4] = min_, max_
         rois = torch.floor(rois)
+        x = Variable(x, requires_grad=True)
+        rois = Variable(rois, requires_grad=False)
 
         if cuda:
             x = x.cuda()
@@ -59,8 +65,8 @@ if __name__ == '__main__':
         for f, foo in enumerate([roi_pooling1, roi_pooling2]):
             start = time.time()
             for t in range(T):
-                output = roi_pooling1(x, rois)
+                output = foo(x, rois)
             print('method{}: {}, batch_size: {}, size: {}, num_rois: {}'.format(f, (time.time() - start) / T,
-                                                                                batch_size[i],
-                                                                                size[i],
-                                                                                num_rois[i]))
+                                                                                config[i][0],
+                                                                                config[i][1],
+                                                                                config[i][2]))
